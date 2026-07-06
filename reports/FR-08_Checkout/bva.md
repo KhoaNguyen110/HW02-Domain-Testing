@@ -76,41 +76,42 @@
 
 ### BUG-01: total_amount = 0 được chấp nhận
 
-| Field             | Detail                                                                                                                   |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Bug ID**        | BUG-01                                                                                                                   |
-| **Phát hiện tại** | BVA-04                                                                                                                   |
-| **Severity**      | Critical                                                                                                                 |
-| **Priority**      | High                                                                                                                     |
-| **Summary**       | Tại on-point `total_amount=0`, kiểm tra backend có tính lại không hay chấp nhận giá trị 0 từ client                      |
-| **Steps**         | 1. Thêm sản phẩm vào giỏ <br> 2. Tiến hành thanh toán <br> 3. Chỉnh sửa text box tổng tiền thanh toán <br> 4. Thanh toán |
-| **Expected**      | Backend tính lại đúng, không chấp nhận 0                                                                                 |
-| **Actual**        | Chấp nhận thay đổi từ client                                                                                             |
-| **Screenshot**    | `screenshots/bug-01-total-zero.png`                                                                                      |
+| Field             | Detail                                                                                                                                  |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Bug ID**        | BUG-01                                                                                                                                  |
+| **Phát hiện tại** | BVA-04                                                                                                                                  |
+| **Severity**      | Critical                                                                                                                                |
+| **Priority**      | High                                                                                                                                    |
+| **Summary**       | Tại on-point `total_amount=0`, kiểm tra backend có tính lại không hay chấp nhận giá trị 0 từ client                                     |
+| **Steps**         | 1. Mở DevTools → Network <br> 2. Thêm sản phẩm vào giỏ <br> 3. Intercept request checkout <br> 4. Sửa `total_amount = 0` <br> 5. Submit |
+| **Expected**      | Backend tính lại đúng, không chấp nhận 0                                                                                                |
+| **Actual**        | Cần verify                                                                                                                              |
+| **Screenshot**    | `screenshots/bug-01-total-zero.png`                                                                                                     |
 
 ---
 
-### BUG-02: Tổng tiền có thể sửa trực tiếp trên UI
+### BUG-02 (confirmed): Tổng tiền có thể sửa trực tiếp trên UI
 
 | Field             | Detail                                                                                             |
 | ----------------- | -------------------------------------------------------------------------------------------------- |
 | **Bug ID**        | BUG-02                                                                                             |
-| **Phát hiện tại** | BVA-04                                                                                             |
+| **Phát hiện tại** | BVA-07, BVA-08                                                                                     |
 | **Severity**      | Critical                                                                                           |
 | **Priority**      | High                                                                                               |
 | **Summary**       | Field tổng tiền trên UI là editable — vi phạm spec "không cho phép người dùng chỉnh sửa trực tiếp" |
 | **Expected**      | Field readonly                                                                                     |
-| **Actual**        | Field có thể chỉnh sửa, thấp hơn hoặc cao hơn giá trị thực hoặc giá trị âm                         |
+| **Actual**        | Field có thể chỉnh sửa                                                                             |
 | **Screenshot**    | `screenshots/bug-02-editable-total.png`                                                            |
 
 ---
 
 ## 6. AI Gap Analysis
 
-| Gap                           | Mô tả                              | Lý do AI bỏ sót                                   |
-| ----------------------------- | ---------------------------------- | ------------------------------------------------- |
-| BUG-02/07/08 (editable field) | Field UI là input thay vì readonly | AI không render UI thực tế                        |
-| BVA-11 (quantity=999)         | Overflow hoặc performance          | AI không nghĩ đến stress test nếu không được nhắc |
+| Gap                               | Mô tả                              | Lý do AI bỏ sót                                   |
+| --------------------------------- | ---------------------------------- | ------------------------------------------------- |
+| BVA-07/08 (DevTools manipulation) | Test qua intercept network request | AI không thể dùng DevTools                        |
+| BUG-02 (editable field)           | Field UI là input thay vì readonly | AI không render UI thực tế                        |
+| BVA-11 (quantity=999)             | Overflow hoặc performance          | AI không nghĩ đến stress test nếu không được nhắc |
 
 ---
 
