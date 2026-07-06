@@ -83,11 +83,11 @@ FR-02 có các ràng buộc sau từ spec:
 | TC ID  | Mô tả                                     | Input                                  | Biên liên quan                    | Kết quả mong đợi                                      | Kết quả thực tế                                           | Pass/Fail |
 | ------ | ----------------------------------------- | -------------------------------------- | --------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- | --------- |
 | BVA-01 | Không có lần sai nào, login đúng          | email đúng, pass đúng, 0 lần sai trước | Below lower bound (attempts=0)    | Đăng nhập thành công                                  | Đăng nhập thành công                                      | Pass      |
-| BVA-02 | Sai 1 lần                                 | email đúng, pass sai × 1               | In-range (attempts=1)             | Báo lỗi, cho thử lại                                  | Đăng nhập thành công                                      | Pass      |
-| BVA-03 | Sai 2 lần — dưới biên lockout             | email đúng, pass sai × 2               | Just below boundary (attempts=2)  | Báo lỗi, vẫn cho thử lại                              | Tài khoản bị khóa, không đăng nhập được                   | Fail      |
+| BVA-02 | Sai 1 lần                                 | email đúng, pass sai × 1               | In-range (attempts=1)             | Báo lỗi, cho thử lại                                  | Thử lại và đăng nhập thành công                           | Pass      |
+| BVA-03 | Sai 2 lần — dưới biên lockout             | email đúng, pass sai × 2               | Just below boundary (attempts=2)  | Báo lỗi, vẫn cho thử lại                              | Tài khoản bị khóa, không cho thử lại                      | Fail      |
 | BVA-04 | Sai đúng 3 lần — kích hoạt lockout        | email đúng, pass sai × 3               | On-point (attempts=3)             | Tài khoản bị khóa 30 giây, hiển thị thông báo         | Vẫn bị khóa, không hiển thị thông báo khóa bao lâu        | Fail      |
 | BVA-05 | Sai 4 lần — vượt biên                     | email đúng, pass sai × 4               | Just above boundary (attempts=4)  | Vẫn bị khóa                                           | Tài khoản vẫn bị khóa                                     | Pass      |
-| BVA-06 | Login đúng sau 29 giây (vẫn còn locked)   | email đúng, pass đúng, sau 29s         | Just below time boundary (29s)    | Vẫn bị khóa, không vào được                           | Không đăng nhập được                                      | Pass      |
+| BVA-06 | Login đúng sau 29 giây (vẫn còn locked)   | email đúng, pass đúng, sau 29s         | Just below time boundary (29s)    | Vẫn bị khóa, không vào được                           | Vẫn bị khóa, không vào được                               | Pass      |
 | BVA-07 | Login đúng sau đúng 30 giây               | email đúng, pass đúng, sau 30s         | On-point time boundary (30s)      | Đăng nhập thành công                                  | Tài khoản vẫn bị khóa, đăng nhập thất bại                 | Fail      |
 | BVA-08 | Login đúng sau 31 giây                    | email đúng, pass đúng, sau 31s         | Just above time boundary (31s)    | Đăng nhập thành công                                  | Tài khoản vẫn bị khóa, đăng nhập thất bại                 | Fail      |
 | BVA-09 | Email rỗng                                | email="", pass đúng                    | On-point empty email              | Báo bắt buộc nhập email                               | Hiển thị thông báo trường dữ liệu bắt buộc nhập           | Pass      |
@@ -127,7 +127,7 @@ FR-02 có các ràng buộc sau từ spec:
 | Expected      | Hiển thị "Tài khoản bị tạm khóa X giây" khi đạt on-point                                          |
 | Actual        | Silent lockout — người dùng không nhận được feedback gì                                           |
 
-### BUG-03: Không rõ behavior tại đúng boundary 30 giây
+### BUG-03: Thời gian lockout khác với spec (3 mins vs 30 sec)
 
 | Field         | Detail                                                           |
 | ------------- | ---------------------------------------------------------------- |
@@ -138,7 +138,20 @@ FR-02 có các ràng buộc sau từ spec:
 | Summary       | Thời gian lockout thực tế là 3 phút, không phải 30 giây như spec |
 | Steps         | 1. Trigger lockout <br> 2. Đợi đúng 30 giây <br> 3. Login ngay   |
 | Expected      | Mở khóa sau đúng 30 giây                                         |
-| Actual        | Sau 30 giây vẫn bị khóa, phải chờ ~3 phút mới đăng nhập được     |
+| Actual        | Sau 30 giây vẫn bị khóa, phải chờ 3 phút mới đăng nhập được      |
+
+### BUG-04: Thời gian lockout khác với spec (3 mins vs 30 sec)
+
+| Field         | Detail                                                           |
+| ------------- | ---------------------------------------------------------------- |
+| Bug ID        | BUG-03                                                           |
+| Phát hiện tại | BVA-06                                                           |
+| Severity      | Minor                                                            |
+| Priority      | High                                                             |
+| Summary       | Thời gian lockout thực tế là 3 phút, không phải 30 giây như spec |
+| Steps         | 1. Trigger lockout <br> 2. Đợi đúng 30 giây <br> 3. Login ngay   |
+| Expected      | Mở khóa sau đúng 30 giây                                         |
+| Actual        | Sau 30 giây vẫn bị khóa, phải chờ 3 phút mới đăng nhập được      |
 
 ---
 
@@ -147,21 +160,21 @@ FR-02 có các ràng buộc sau từ spec:
 | Gap                          | Mô tả                                     | Lý do AI bỏ sót                                          |
 | ---------------------------- | ----------------------------------------- | -------------------------------------------------------- |
 | BVA-06/07/08 (time boundary) | Test chính xác tại 29s, 30s, 31s          | AI không thể đo thời gian thực — cần human test thủ công |
-| BUG-03 (off-by-one ở time)   | Có thể hệ thống dùng > 30 thay vì >= 30   | AI không đọc được source code backend                    |
+| BUG-03 (off-by-one ở time)   | Có thể hệ thống dùng > 30 thay vì >= 30   | AI không đọc được source code                            |
 | BVA-16 (reset bộ đếm)        | Sau login thành công bộ đếm có về 0 không | Logic ẩn, AI không suy luận nếu thiếu spec               |
 
 ---
 
 ## 7. Test Summary
 
-| Metric               | Value                      |
-| -------------------- | -------------------------- |
-| Total BVA test cases | 16                         |
-| Executed             |                            |
-| Passed               |                            |
-| Failed               |                            |
-| Not executed         |                            |
-| Bugs found           | 2 confirmed + 1 cần verify |
+| Metric               | Value |
+| -------------------- | ----- |
+| Total BVA test cases | 16    |
+| Executed             | 16    |
+| Passed               | 9     |
+| Failed               | 7     |
+| Not executed         | 0     |
+| Bugs found           | 3     |
 
 ---
 
