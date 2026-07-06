@@ -67,26 +67,27 @@ FR-02 có các biến input sau:
 
 ## 3. Test Case Table
 
-| TC ID | Mô tả                                 | Email (Miền)          | Password (Miền) | Attempts             | Kết quả mong đợi                               | Kết quả thực tế                                                                     | Pass/Fail |
-| ----- | ------------------------------------- | --------------------- | --------------- | -------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------- | --------- |
-| TC-01 | Đăng nhập thành công                  | D1 valid email        | P1 correct pass | A1 (0)               | Redirect về /, nhận JWT Token                  | Đăng nhập thành công, token tồn tại                                                 | Pass      |
-| TC-02 | Email rỗng                            | D6 empty              | P1 correct pass | A1 (0)               | Báo bắt buộc nhập email                        | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
-| TC-03 | Password rỗng                         | D1 valid email        | P3 empty        | A1 (0)               | Báo bắt buộc nhập password                     | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
-| TC-04 | Cả 2 field rỗng                       | D6 empty              | P3 empty        | A1 (0)               | Báo bắt buộc nhập                              | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
-| TC-05 | Email sai format (không có @)         | D2 userexample.com    | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
-| TC-06 | Email sai format (thiếu domain)       | D3 user@              | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
-| TC-07 | Email chỉ có @                        | D4 @gmail.com         | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
-| TC-08 | Email không tồn tại                   | D5 notexist@gmail.com | P2 wrong pass   | A1 (0)               | Báo đăng nhập thất bại                         | Hiển thị thông báo "Đăng nhập thất bại"                                             | Pass      |
-| TC-09 | lần 1 Sai password                    | D1 valid email        | P2 wrong pass   | A2 (1)               | Báo đăng nhập thất bại, cho thử lại            | Hiển thị thông báo "Đăng nhập thất bại", cho phép thử lại                           | Pass      |
-| TC-10 | Sai password lần 2                    | D1 valid email        | P2 wrong pass   | A3 (2)               | Báo đăng nhập thất bại, cho thử lại            | Hiển thị thông báo "Đăng nhập thất bại", tài khoản bị khóa, không cho phép thử lại  | Fial      |
-| TC-11 | Sai password lần 3 — trigger lockout  | D1 valid email        | P2 wrong pass   | A4 (3)               | Tài khoản bị khóa 30 giây, hiển thị thông báo  | Tài khoản bị khóa, nhưng không hiển thị thông báo đến người dùng                    | Fail      |
-| TC-12 | Login đúng pass khi đang bị lockout   | D1 valid email        | P1 correct pass | A4 (đang locked)     | Vẫn không vào được, hiển thị thông báo bị khóa | Tài khoản vẫn bị khóa, không hiển thị thông báo, không submit được                  | Fail      |
-| TC-13 | Login sai tiếp khi đang bị lockout    | D1 valid email        | P2 wrong pass   | A5 (4+)              | Vẫn bị khóa                                    | Vẫn bị khóa                                                                         | Pass      |
-| TC-14 | Login đúng sau khi hết lockout (>30s) | D1 valid email        | P1 correct pass | A6 (sau 30s)         | Đăng nhập thành công, redirect về /            | Tài khoản vẫn bị khóa, người dùng phải chờ 3 phút                                   | Fail      |
-| TC-15 | Password có khoảng trắng              | D1 valid email        | P4 ` pass`      | A1 (0)               | Xác định hệ thống có trim không                | Hệ thống không tự động trim text khi có khoảng trắng, hiển thị "Đăng nhập thất bại" | Fail      |
-| TC-16 | Email chữ HOA                         | D8 USER@GMAIL.COM     | P1 correct pass | A1 (0)               | Đăng nhập thành công (case-insensitive)        | Đăng nhập thất bại                                                                  | Fail      |
-| TC-17 | Password đúng nhưng khác hoa/thường   | D1 valid email        | P5 CORRECTPASS  | A1 (0)               | Đăng nhập thất bại (case-sensitive)            | Đăng nhập thất bại                                                                  | Pass      |
-| TC-18 | Reset attempts sau login thành công   | D1 valid email        | P1 correct pass | A3 (2 lần sai trước) | Thành công, bộ đếm về 0                        | Bộ đếm reset về 0, không bị khóa ngay khi nhập sai lại                              | Pass      |
+| TC ID | Mô tả                                       | Email (Miền)          | Password (Miền) | Attempts             | Kết quả mong đợi                               | Kết quả thực tế                                                                     | Pass/Fail |
+| ----- | ------------------------------------------- | --------------------- | --------------- | -------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------- | --------- |
+| TC-01 | Đăng nhập thành công                        | D1 valid email        | P1 correct pass | A1 (0)               | Redirect về /, nhận JWT Token                  | Đăng nhập thành công, token tồn tại                                                 | Pass      |
+| TC-02 | Email rỗng                                  | D6 empty              | P1 correct pass | A1 (0)               | Báo bắt buộc nhập email                        | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
+| TC-03 | Password rỗng                               | D1 valid email        | P3 empty        | A1 (0)               | Báo bắt buộc nhập password                     | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
+| TC-04 | Cả 2 field rỗng                             | D6 empty              | P3 empty        | A1 (0)               | Báo bắt buộc nhập                              | Hiển thị thông báo trường dữ liệu bắt buộc nhập                                     | Pass      |
+| TC-05 | Email sai format (không có @)               | D2 userexample.com    | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
+| TC-06 | Email sai format (thiếu domain)             | D3 user@              | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
+| TC-07 | Email chỉ có @                              | D4 @gmail.com         | P1 correct pass | A1 (0)               | HTML5 validation báo sai format                | Chỉ hiển thị thông báo "Đăng nhập thất bại"                                         | Fail      |
+| TC-08 | Email không tồn tại                         | D5 notexist@gmail.com | P2 wrong pass   | A1 (0)               | Báo đăng nhập thất bại                         | Hiển thị thông báo "Đăng nhập thất bại"                                             | Pass      |
+| TC-09 | lần 1 Sai password                          | D1 valid email        | P2 wrong pass   | A2 (1)               | Báo đăng nhập thất bại, cho thử lại            | Hiển thị thông báo "Đăng nhập thất bại", cho phép thử lại                           | Pass      |
+| TC-10 | Sai password lần 2                          | D1 valid email        | P2 wrong pass   | A3 (2)               | Báo đăng nhập thất bại, cho thử lại            | Hiển thị thông báo "Đăng nhập thất bại", tài khoản bị khóa, không cho phép thử lại  | Fial      |
+| TC-11 | Sai password lần 3 — trigger lockout        | D1 valid email        | P2 wrong pass   | A4 (3)               | Tài khoản bị khóa 30 giây, hiển thị thông báo  | Tài khoản bị khóa, nhưng không hiển thị thông báo đến người dùng                    | Fail      |
+| TC-12 | Login đúng pass khi đang bị lockout         | D1 valid email        | P1 correct pass | A4 (đang locked)     | Vẫn không vào được, hiển thị thông báo bị khóa | Tài khoản vẫn bị khóa, không hiển thị thông báo, không submit được                  | Fail      |
+| TC-13 | Login sai tiếp khi đang bị lockout          | D1 valid email        | P2 wrong pass   | A5 (4+)              | Vẫn bị khóa                                    | Vẫn bị khóa                                                                         | Pass      |
+| TC-14 | Login đúng sau khi hết lockout (>30s)       | D1 valid email        | P1 correct pass | A6 (sau 30s)         | Đăng nhập thành công, redirect về /            | Tài khoản vẫn bị khóa, người dùng phải chờ 3 phút                                   | Fail      |
+| TC-15 | Password có khoảng trắng                    | D1 valid email        | P4 ` pass`      | A1 (0)               | Xác định hệ thống có trim không                | Hệ thống không tự động trim text khi có khoảng trắng, hiển thị "Đăng nhập thất bại" | Fail      |
+| TC-16 | Email chữ HOA                               | D8 USER@GMAIL.COM     | P1 correct pass | A1 (0)               | Đăng nhập thành công (case-insensitive)        | Đăng nhập thất bại                                                                  | Fail      |
+| TC-17 | Password đúng nhưng khác hoa/thường         | D1 valid email        | P5 CORRECTPASS  | A1 (0)               | Đăng nhập thất bại (case-sensitive)            | Đăng nhập thất bại                                                                  | Pass      |
+| TC-18 | Reset attempts sau login thành công         | D1 valid email        | P1 correct pass | A3 (2 lần sai trước) | Thành công, bộ đếm về 0                        | Bộ đếm reset về 0, không bị khóa ngay khi nhập sai lại                              | Pass      |
+| TC-19 | Gửi request cập nhật profile với role=admin | D1 valid email        | P1 correct pass | -                    | Backend bỏ qua trường role, không cho đổi role | Cập nhận và đăng nhập admin thành công bằng tài khoản user sau khi cập nhật         | Fail      |
 
 ## 4. Bug Reports
 
@@ -132,6 +133,21 @@ FR-02 có các biến input sau:
 | Actual             | Nội dung mật khẩu được hiển thị toàn bộ                            |
 | Screenshot         | screenshots/bug-03-password-is-not-hidden.png                      |
 
+### BUG-04: User thường tự đổi role thành admin
+
+| Field             | Detail                                                                                                                             |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Bug ID**        | BUG-05                                                                                                                             |
+| **Phát hiện tại** | TC-20                                                                                                                              |
+| **Severity**      | Critical                                                                                                                           |
+| **Priority**      | High                                                                                                                               |
+| **Summary**       | User thường gọi API `PUT /api/users/me` với body `{"role": "admin"}` → thành công, role được cập nhật thành admin — vi phạm SEC-06 |
+| **Expected**      | Backend bỏ qua trường role, trả về lỗi hoặc giữ nguyên role cũ                                                                     |
+| **Actual**        | Response trả về update thành công, role = "admin"                                                                                  |
+| **Steps**         | 1. Đăng nhập tài khoản user thường <br> 2. Gọi `PUT /api/users/me` với body `{"role": "admin"}` <br> 3. Response trả về thành công |
+| **Related**       | SEC-06                                                                                                                             |
+| **Screenshot**    | `screenshots/bug-04-role-escalation.png`                                                                                           |
+
 ## 5. AI Gap Analysis
 
 ### Những gì AI có thể bỏ sót
@@ -151,38 +167,11 @@ FR-02 có các biến input sau:
 
 ## 6. Test Summary
 
-| Metric           | Value                      |
-| ---------------- | -------------------------- |
-| Total test cases | 18                         |
-| Executed         | 18                         |
-| Passed           | 9                          |
-| Failed           | 9                          |
-| Not executed     | 0                          |
-| Bugs found       | 3 (BUG-01, BUG-02, BUG-03) |
-
-## 7. Cross-Reference với BVA Report
-
-| BVA Test Case     | Domain Test Case       | Liên quan                          |
-| ----------------- | ---------------------- | ---------------------------------- |
-| BVA-01 đến BVA-05 | TC-09 đến TC-13        | Kiểm thử login_attempts boundary   |
-| BVA-06 đến BVA-08 | TC-14                  | Kiểm thử lockout_duration boundary |
-| BVA-09 đến BVA-13 | TC-02, TC-05 đến TC-07 | Kiểm thử email validation          |
-| BVA-14 đến BVA-15 | TC-03, TC-04           | Kiểm thử password validation       |
-| BVA-16            | TC-18                  | Kiểm thử reset bộ đếm              |
-
-## 8. Recommendations
-
-1. **Fix BUG-01** - Sửa tiêu đề trang từ "Đăng kí" thành "Đăng nhập"
-2. **Fix BUG-02 (critical)** - Thêm thông báo lockout và bộ đếm ngược thời gian
-3. **Xác định rõ behavior** với:
-   - Trim khoảng trắng trong password (TC-15)
-   - Case-sensitive của password (TC-17)
-   - Reset bộ đếm sau login thành công (TC-18)
-4. **Bổ sung test cases** cho các edge cases phát hiện:
-   - Email có dấu tiếng Việt
-   - Password đặc biệt (ký tự đặc biệt, Unicode)
-   - Concurrent login attempts từ nhiều tab/browser
-
-**Report Date:**
-**Prepared by:**
-**Reviewed by:**
+| Metric           | Value                              |
+| ---------------- | ---------------------------------- |
+| Total test cases | 19                                 |
+| Executed         | 19                                 |
+| Passed           | 9                                  |
+| Failed           | 10                                 |
+| Not executed     | 0                                  |
+| Bugs found       | 4 (BUG-01, BUG-02, BUG-03. BUG-04) |

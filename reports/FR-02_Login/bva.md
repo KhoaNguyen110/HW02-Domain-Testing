@@ -177,17 +177,3 @@ FR-02 có các ràng buộc sau từ spec:
 | Bugs found           | 3     |
 
 ---
-
-## 8. Recommendations
-
-1. **Ưu tiên fix BUG-02** - Hiển thị thông báo lockout cho người dùng
-2. **Verify BUG-03** - Kiểm tra behavior tại đúng 30 giây
-3. **Bổ sung test tự động** cho các test case time-based
-4. **Cập nhật spec** để làm rõ behavior tại boundary 30 giây và reset bộ đếm
-5. **Thêm logging** để dễ dàng debug các vấn đề liên quan đến lockout
-
----
-
-**Report Date:**
-**Prepared by:**
-**Reviewed by:**
