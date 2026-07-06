@@ -80,30 +80,42 @@ FR-02 có các ràng buộc sau từ spec:
 
 ## 4. Test Case Table
 
-| TC ID  | Mô tả                                     | Input                                  | Biên liên quan                    | Kết quả mong đợi                                      | Kết quả thực tế | Pass/Fail |
-| ------ | ----------------------------------------- | -------------------------------------- | --------------------------------- | ----------------------------------------------------- | --------------- | --------- |
-| BVA-01 | Không có lần sai nào, login đúng          | email đúng, pass đúng, 0 lần sai trước | Below lower bound (attempts=0)    | Đăng nhập thành công                                  |                 |           |
-| BVA-02 | Sai 1 lần                                 | email đúng, pass sai × 1               | In-range (attempts=1)             | Báo lỗi, cho thử lại                                  |                 |           |
-| BVA-03 | Sai 2 lần — dưới biên lockout             | email đúng, pass sai × 2               | Just below boundary (attempts=2)  | Báo lỗi, vẫn cho thử lại                              |                 |           |
-| BVA-04 | Sai đúng 3 lần — kích hoạt lockout        | email đúng, pass sai × 3               | On-point (attempts=3)             | Tài khoản bị khóa 30 giây, hiển thị thông báo         |                 |           |
-| BVA-05 | Sai 4 lần — vượt biên                     | email đúng, pass sai × 4               | Just above boundary (attempts=4)  | Vẫn bị khóa                                           |                 |           |
-| BVA-06 | Login đúng sau 29 giây (vẫn còn locked)   | email đúng, pass đúng, sau 29s         | Just below time boundary (29s)    | Vẫn không vào được                                    |                 |           |
-| BVA-07 | Login đúng sau đúng 30 giây               | email đúng, pass đúng, sau 30s         | On-point time boundary (30s)      | Đăng nhập thành công                                  |                 |           |
-| BVA-08 | Login đúng sau 31 giây                    | email đúng, pass đúng, sau 31s         | Just above time boundary (31s)    | Đăng nhập thành công                                  |                 |           |
-| BVA-09 | Email rỗng                                | email="", pass đúng                    | On-point empty email              | Báo bắt buộc nhập email                               |                 |           |
-| BVA-10 | Email format tối thiểu hợp lệ             | email=a@b.c, pass đúng                 | On-point minimum valid email      | Cho submit (server validate tồn tại)                  |                 |           |
-| BVA-11 | Email thiếu @                             | email=usergmail.com                    | Invalid email boundary            | HTML5 báo sai format                                  |                 |           |
-| BVA-12 | Email thiếu local part                    | email=@gmail.com                       | Invalid email boundary            | HTML5 báo sai format                                  |                 |           |
-| BVA-13 | Email thiếu domain                        | email=user@                            | Invalid email boundary            | HTML5 báo sai format                                  |                 |           |
-| BVA-14 | Password rỗng                             | email đúng, pass=""                    | On-point empty password (0 ký tự) | Báo bắt buộc nhập password                            |                 |           |
-| BVA-15 | Password 1 ký tự                          | email đúng, pass=a                     | Just above empty (1 ký tự)        | Cho submit, server báo sai password                   |                 |           |
-| BVA-16 | Login đúng sau lockout, bộ đếm reset về 0 | email đúng, pass đúng, sau 30s         | Post-lockout reset                | Thành công, bộ đếm về 0 (sai tiếp không bị khóa ngay) |                 |           |
+| TC ID  | Mô tả                                     | Input                                  | Biên liên quan                    | Kết quả mong đợi                                      | Kết quả thực tế                                           | Pass/Fail |
+| ------ | ----------------------------------------- | -------------------------------------- | --------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- | --------- |
+| BVA-01 | Không có lần sai nào, login đúng          | email đúng, pass đúng, 0 lần sai trước | Below lower bound (attempts=0)    | Đăng nhập thành công                                  | Đăng nhập thành công                                      | Pass      |
+| BVA-02 | Sai 1 lần                                 | email đúng, pass sai × 1               | In-range (attempts=1)             | Báo lỗi, cho thử lại                                  | Đăng nhập thành công                                      | Pass      |
+| BVA-03 | Sai 2 lần — dưới biên lockout             | email đúng, pass sai × 2               | Just below boundary (attempts=2)  | Báo lỗi, vẫn cho thử lại                              | Tài khoản bị khóa, không đăng nhập được                   | Fail      |
+| BVA-04 | Sai đúng 3 lần — kích hoạt lockout        | email đúng, pass sai × 3               | On-point (attempts=3)             | Tài khoản bị khóa 30 giây, hiển thị thông báo         | Vẫn bị khóa, không hiển thị thông báo khóa bao lâu        | Fail      |
+| BVA-05 | Sai 4 lần — vượt biên                     | email đúng, pass sai × 4               | Just above boundary (attempts=4)  | Vẫn bị khóa                                           |                                                           |           |
+| BVA-06 | Login đúng sau 29 giây (vẫn còn locked)   | email đúng, pass đúng, sau 29s         | Just below time boundary (29s)    | Vẫn bị khóa, không vào được                           | Không đăng nhập được                                      | Pass      |
+| BVA-07 | Login đúng sau đúng 30 giây               | email đúng, pass đúng, sau 30s         | On-point time boundary (30s)      | Đăng nhập thành công                                  | Tài khoản vẫn bị khóa, đăng nhập thất bại                 | Fail      |
+| BVA-08 | Login đúng sau 31 giây                    | email đúng, pass đúng, sau 31s         | Just above time boundary (31s)    | Đăng nhập thành công                                  | Tài khoản vẫn bị khóa, đăng nhập thất bại                 | Fail      |
+| BVA-09 | Email rỗng                                | email="", pass đúng                    | On-point empty email              | Báo bắt buộc nhập email                               | Hiển thị thông báo trường dữ liệu bắt buộc nhập           | Pass      |
+| BVA-10 | Email format tối thiểu hợp lệ             | email=a@b.c, pass đúng                 | On-point minimum valid email      | Cho submit (server validate tồn tại)                  | Cho phép submit, thông báo đăng nhập thất bại             | Pass      |
+| BVA-11 | Email thiếu @                             | email=usergmail.com                    | Invalid email boundary            | HTML5 báo sai format                                  | Chỉ hiển thị thông báo "Đăng nhập thất bại"               | Fail      |
+| BVA-12 | Email thiếu local part                    | email=@gmail.com                       | Invalid email boundary            | HTML5 báo sai format                                  | Chỉ hiển thị thông báo "Đăng nhập thất bại"               | Fail      |
+| BVA-13 | Email thiếu domain                        | email=user@                            | Invalid email boundary            | HTML5 báo sai format                                  | Chỉ hiển thị thông báo "Đăng nhập thất bại"               | Fail      |
+| BVA-14 | Password rỗng                             | email đúng, pass=""                    | On-point empty password (0 ký tự) | Báo bắt buộc nhập password                            | Hiển thị thông báo trường dữ liệu bắt buộc nhập           | Pass      |
+| BVA-15 | Password 1 ký tự                          | email đúng, pass=a                     | Just above empty (1 ký tự)        | Cho submit, server báo sai thông tin đăng nhập        | Cho phép submit, thông báo đăng nhập thất bại             | Pass      |
+| BVA-16 | Login đúng sau lockout, bộ đếm reset về 0 | email đúng, pass đúng, sau 30s         | Post-lockout reset                | Thành công, bộ đếm về 0 (sai tiếp không bị khóa ngay) | Login thành công sau lockout, sai tiếp không bị khóa ngay | Pass      |
 
 ---
 
 ## 5. Bug Reports (phát hiện qua BVA)
 
-### BUG-02 (confirmed): Không hiển thị thông báo lockout tại on-point (attempts=3)
+### BUG-01: Lockout tại điểm dưới biên (attempts=2)
+
+| Field         | Detail                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------ |
+| Bug ID        | BUG-01                                                                                                       |
+| Phát hiện tại | BVA-03                                                                                                       |
+| Severity      | Major                                                                                                        |
+| Priority      | High                                                                                                         |
+| Summary       | Tại dưới ngưỡng biên (2 lần sai), hệ thống kích hoạt lockout, khác với spec chính thức là sai 3 lần mới khóa |
+| Expected      | Hiển thị "Tài khoản bị tạm khóa X giây" khi đạt on-point                                                     |
+| Actual        | Silent lockout — người dùng không nhận được feedback gì                                                      |
+
+### BUG-02: Không hiển thị thông báo lockout tại on-point (attempts=3)
 
 | Field         | Detail                                                                                            |
 | ------------- | ------------------------------------------------------------------------------------------------- |
@@ -115,18 +127,18 @@ FR-02 có các ràng buộc sau từ spec:
 | Expected      | Hiển thị "Tài khoản bị tạm khóa X giây" khi đạt on-point                                          |
 | Actual        | Silent lockout — người dùng không nhận được feedback gì                                           |
 
-### BUG-03 (cần verify): Không rõ behavior tại đúng boundary 30 giây
+### BUG-03: Không rõ behavior tại đúng boundary 30 giây
 
-| Field         | Detail                                                                                            |
-| ------------- | ------------------------------------------------------------------------------------------------- |
-| Bug ID        | BUG-03                                                                                            |
-| Phát hiện tại | BVA-07                                                                                            |
-| Severity      | Minor                                                                                             |
-| Priority      | Medium                                                                                            |
-| Summary       | Cần xác minh behavior tại đúng on-point 30 giây — hệ thống có unlock chính xác không hay cần 31s+ |
-| Steps         | 1. Trigger lockout <br> 2. Đợi đúng 30 giây <br> 3. Login ngay                                    |
-| Expected      | Đăng nhập thành công tại đúng 30 giây                                                             |
-| Actual        | Chưa verify                                                                                       |
+| Field         | Detail                                                           |
+| ------------- | ---------------------------------------------------------------- |
+| Bug ID        | BUG-03                                                           |
+| Phát hiện tại | BVA-06                                                           |
+| Severity      | Minor                                                            |
+| Priority      | High                                                             |
+| Summary       | Thời gian lockout thực tế là 3 phút, không phải 30 giây như spec |
+| Steps         | 1. Trigger lockout <br> 2. Đợi đúng 30 giây <br> 3. Login ngay   |
+| Expected      | Mở khóa sau đúng 30 giây                                         |
+| Actual        | Sau 30 giây vẫn bị khóa, phải chờ ~3 phút mới đăng nhập được     |
 
 ---
 
