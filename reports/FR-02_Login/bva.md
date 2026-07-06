@@ -30,14 +30,6 @@ FR-02 có các ràng buộc sau từ spec:
 
 **Đây là biên quan trọng nhất của FR-02.**
 
-Miền VALID (cho thử lại) │ Miền INVALID (bị khóa)
-[0 .. 2] │ [3 .. ∞]
-─────────────────────────────────────────────────────────
-0 1 2 │ 3 │ 4 5 ...
-↑ ↑
-biên trái on-point
-(2 lần) (3 lần)
-
 | Điểm biên           | Giá trị    | Tên                  | Kết quả mong đợi          |
 | ------------------- | ---------- | -------------------- | ------------------------- |
 | Below lower bound   | 0 lần sai  | Không có lần sai nào | Cho đăng nhập bình thường |
@@ -50,13 +42,6 @@ biên trái on-point
 ---
 
 ### 3.2 Biến lockout_duration — Thời gian khóa 30 giây
-
-Miền LOCKED │ Miền UNLOCKED
-[0 .. 30s] │ [30s .. ∞]
-────────────────────────────────────────────────────
-0s ... 29s │ 30s │ 31s ...
-↑ ↑
-dưới biên on-point
 
 | Điểm biên           | Giá trị             | Kết quả mong đợi                  |
 | ------------------- | ------------------- | --------------------------------- |
@@ -83,13 +68,13 @@ dưới biên on-point
 
 ### 3.4 Biến password — Độ dài
 
-> **Lưu ý:** Spec không nêu rõ giới hạn độ dài password khi đăng nhập (chỉ check khi đăng ký). BVA ở đây tập trung vào rỗng vs không rỗng.
+> **Nhận xét:** Spec không nêu rõ giới hạn độ dài password khi đăng nhập (chỉ check khi đăng ký). BVA ở đây tập trung vào rỗng vs không rỗng.
 
-| Điểm biên        | Giá trị              | Kết quả mong đợi                       |
-| ---------------- | -------------------- | -------------------------------------- |
-| On-point rỗng    | `` (0 ký tự)         | Báo bắt buộc nhập password             |
-| Just above empty | 1 ký tự `a`          | Cho phép submit (validate phía server) |
-| Typical valid    | password đủ dài đúng | Đăng nhập thành công                   |
+| Điểm biên        | Giá trị       | Kết quả mong đợi                       |
+| ---------------- | ------------- | -------------------------------------- |
+| On-point rỗng    | `` (0 ký tự)  | Báo bắt buộc nhập password             |
+| Just above empty | 1 ký tự `a`   | Cho phép submit (validate phía server) |
+| Typical valid    | password đúng | Đăng nhập thành công                   |
 
 ---
 
