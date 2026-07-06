@@ -128,7 +128,7 @@ FR-02 có các biến input sau:
 | Feature            | FR-02                                                              |
 | Summary            | Khi điền mật khẩu, không ẩn bằng các kí tự đặc biệt                |
 | Steps to Reproduce | 1. Vào http://localhost:5173/login <br> 2. Điền thông tin mật khẩu |
-| Expected           | Các kí tự đã nhập được ẩn bằng kí tự đặc biệt như \*, #            |
+| Expected           | Các kí tự đã nhập được ẩn bằng kí tự đặc biệt như \*, \#           |
 | Actual             | Nội dung mật khẩu được hiển thị toàn bộ                            |
 | Screenshot         | screenshots/bug-03-password-is-not-hidden.png                      |
 
@@ -151,14 +151,14 @@ FR-02 có các biến input sau:
 
 ## 6. Test Summary
 
-| Metric           | Value              |
-| ---------------- | ------------------ |
-| Total test cases | 18                 |
-| Executed         |                    |
-| Passed           |                    |
-| Failed           |                    |
-| Not executed     |                    |
-| Bugs found       | 2 (BUG-01, BUG-02) |
+| Metric           | Value                      |
+| ---------------- | -------------------------- |
+| Total test cases | 18                         |
+| Executed         | 18                         |
+| Passed           | 9                          |
+| Failed           | 9                          |
+| Not executed     | 0                          |
+| Bugs found       | 3 (BUG-01, BUG-02, BUG-03) |
 
 ## 7. Cross-Reference với BVA Report
 
