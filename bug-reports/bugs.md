@@ -1,4 +1,4 @@
-# Bugs Summary (FR-02, FR-08, FR-14)
+# Bugs Summary (FR-02, FR-08, FR-14, FR-20)
 
 ## Unique Bugs
 
@@ -22,6 +22,13 @@
 | FR14-04 | FR-14 Category Management | Major    | Cho phep them danh muc trung ten                                             | Domain          |
 | FR14-05 | FR-14 Category Management | Major    | Co the xoa danh muc dang co san pham lien ket                                | Domain          |
 | FR14-06 | FR-14 Category Management | Critical | User thuong dung token van goi duoc API tao danh muc (RBAC bypass)           | Domain          |
+| FR20-01 | FR-20 Mobile Login        | Minor    | Label email hien thi "Username" thay vi "Email" va keyboard khong dung kieu  | Domain          |
+| FR20-02 | FR-20 Mobile Login        | Major    | Email/password rong khong duoc validate client-side                          | Domain, BVA     |
+| FR20-03 | FR-20 Mobile Login        | Minor    | Email sai format khong duoc validate client-side                             | Domain, BVA     |
+| FR20-04 | FR-20 Mobile Login        | Major    | Lockout kich hoat sau 2 lan sai thay vi 3 lan                                | Domain, BVA     |
+| FR20-05 | FR-20 Mobile Login        | Major    | Silent lockout, khong hien thi thong bao bi khoa rieng                       | Domain, BVA     |
+| FR20-06 | FR-20 Mobile Login        | Major    | Thoi gian lockout thuc te ~3 phut thay vi 30 giay                            | Domain, BVA     |
+| FR20-07 | FR-20 Mobile Login        | Minor    | Email viet hoa khong dang nhap duoc                                          | Domain          |
 
 ## Screenshot Location
 
@@ -29,3 +36,15 @@
 - reports/FR-02_Login/screenshots/
 - reports/FR-08_Checkout/screenshots/
 - reports/FR-14_CategoryManagement/screenshots/
+- reports/FR20_Mobile_Login/screenshots/
+
+## Test Summary
+
+| Metric            | Value                   |
+| ----------------- | ----------------------- |
+| Total test cases  | 114 (35 + 25 + 27 + 27) |
+| Executed          | 113                     |
+| Passed            | 53                      |
+| Failed            | 60                      |
+| Not executed      | 1                       |
+| Unique bugs found | 25                      |
