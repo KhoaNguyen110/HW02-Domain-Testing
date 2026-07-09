@@ -44,7 +44,7 @@
 | **Actual**             | Checkout thành công, đơn hàng được tạo dù thiếu thông tin giao hàng                                       |
 | **Screenshot**         | `screenshots/bug-03-missing-profile-checkout.png`                                                         |
 
-### BUG-04: Backend chấp nhận total_amount do client gửi lên, không tính lại (confirmed)
+### BUG-04: Backend chấp nhận total_amount do client gửi lên, không tính lại
 
 | Field                  | Detail                                                                                                                                                                                             |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
