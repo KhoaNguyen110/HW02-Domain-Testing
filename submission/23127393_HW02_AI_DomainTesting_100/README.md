@@ -58,6 +58,6 @@ Kết quả bug ở mỗi feature là tổng hợp từ cả 2 kỹ thuật sau 
 
 ## 3. Demo Videos
 
-- Video demo sử dụng Agent Skill cho feature cụ thể: []
+- Video demo sử dụng Agent Skill cho feature cụ thể: [https://youtu.be/JEgvsOjCcZc]https://youtu.be/JEgvsOjCcZc
 
 ---
